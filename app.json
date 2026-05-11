@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "AutoPrime Garage",
+    "slug": "autoprime-garage",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#050816"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.autoprime.garage"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#050816"
+      },
+      "package": "com.autoprime.garage"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
