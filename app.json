@@ -4,8 +4,9 @@
     "slug": "autoprime-garage",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
+    "scheme": "autoprime",
+    "icon": "./assets/icon.png",
     "splash": {
       "resizeMode": "contain",
       "backgroundColor": "#050816"
@@ -15,10 +16,10 @@
       "bundleIdentifier": "com.autoprime.garage"
     },
     "android": {
+      "package": "com.autoprime.garage",
       "adaptiveIcon": {
         "backgroundColor": "#050816"
-      },
-      "package": "com.autoprime.garage"
+      }
     },
     "web": {
       "bundler": "metro"

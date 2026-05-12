@@ -6,11 +6,13 @@ import {
 } from '@react-navigation/native';
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
+
 import {
   AppTheme,
   ThemeMode,
@@ -22,16 +24,24 @@ const THEME_STORAGE_KEY = '@autoprime/theme-mode';
 
 interface ThemeContextValue {
   isDark: boolean;
+  isReady: boolean;
   mode: ThemeMode;
   theme: AppTheme;
   navigationTheme: NavigationTheme;
-  setMode: (mode: ThemeMode) => void;
-  toggleTheme: (value?: boolean) => void;
+  setMode: (mode: ThemeMode) => Promise<void>;
+  toggleTheme: (value?: boolean) => Promise<void>;
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-function buildNavigationTheme(theme: AppTheme, isDark: boolean): NavigationTheme {
+function isValidThemeMode(value: unknown): value is ThemeMode {
+  return value === 'dark' || value === 'light';
+}
+
+function buildNavigationTheme(
+  theme: AppTheme,
+  isDark: boolean
+): NavigationTheme {
   const baseTheme = isDark ? DarkTheme : DefaultTheme;
 
   return {
@@ -49,39 +59,67 @@ function buildNavigationTheme(theme: AppTheme, isDark: boolean): NavigationTheme
   };
 }
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [mode, setModeState] = useState<ThemeMode>('dark');
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function loadThemePreference() {
       try {
         const storedMode = await AsyncStorage.getItem(THEME_STORAGE_KEY);
-        if (storedMode === 'dark' || storedMode === 'light') {
+
+        if (isMounted && isValidThemeMode(storedMode)) {
           setModeState(storedMode);
         }
-      } catch {
-        // para manter o tema padrã caso o tema não seja carregado corretamente
+      } catch (error) {
+        console.log('THEME LOAD ERROR:', error);
+      } finally {
+        if (isMounted) {
+          setIsReady(true);
+        }
       }
     }
 
     loadThemePreference();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const setMode = (nextMode: ThemeMode) => {
+  const setMode = useCallback(async (nextMode: ThemeMode) => {
+    if (!isValidThemeMode(nextMode)) return;
+
     setModeState(nextMode);
-    AsyncStorage.setItem(THEME_STORAGE_KEY, nextMode).catch(() => {
-      // Ignora erros de persistência, pois o tema ainda funcionará mesmo que a preferência não seja salva
-    });
-  };
 
-  const toggleTheme = (value?: boolean) => {
-    if (typeof value === 'boolean') {
-      setMode(value ? 'dark' : 'light');
-      return;
+    try {
+      await AsyncStorage.setItem(THEME_STORAGE_KEY, nextMode);
+    } catch (error) {
+      console.log('THEME SAVE ERROR:', error);
     }
+  }, []);
 
-    setMode(mode === 'dark' ? 'light' : 'dark');
-  };
+  const toggleTheme = useCallback(
+    async (value?: boolean) => {
+      const nextMode =
+        typeof value === 'boolean'
+          ? value
+            ? 'dark'
+            : 'light'
+          : mode === 'dark'
+            ? 'light'
+            : 'dark';
+
+      await setMode(nextMode);
+    },
+    [mode, setMode]
+  );
 
   const value = useMemo<ThemeContextValue>(() => {
     const isDark = mode === 'dark';
@@ -89,22 +127,29 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     return {
       isDark,
+      isReady,
       mode,
       theme,
       navigationTheme: buildNavigationTheme(theme, isDark),
       setMode,
       toggleTheme,
     };
-  }, [mode]);
+  }, [mode, isReady, setMode, toggleTheme]);
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {
   const context = useContext(ThemeContext);
 
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error(
+      'useTheme deve ser usado dentro de ThemeProvider.'
+    );
   }
 
   return context;
