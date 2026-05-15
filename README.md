@@ -85,7 +85,15 @@ Rodrigo| Apoio geral no desenvolvimento e testes
 
 Prints do Aplicativo
 
-Adicionar prints das telas:
+ prints das telas:
+ <img width="702" height="1600" alt="WhatsApp Image 2026-05-15 at 18 17 42 (1)" src="https://github.com/user-attachments/assets/842b06d7-21cf-4e67-9278-6a3e11e9a83d" /><img width="702" height="1600" alt="WhatsApp Image 2026-05-15 at 18 17 41 (1)" src="https://github.com/user-attachments/assets/7d7455cf-9651-4d8e-8b6e-469d922c9caf" />
+<img width="702" height="1600" alt="WhatsApp Image 2026-05-15 at 18 17 41 (3)" src="https://github.com/user-attachments/assets/1902bffc-8a4a-4f48-a340-689014433cbe" />
+<img width="702" height="1600" alt="WhatsApp Image 2026-05-15 at 18 17 41 (2)" src="https://github.com/user-attachments/assets/9df60761-425f-4235-9db1-536b3779766b" />
+<img width="702" height="1600" alt="WhatsApp Image 2026-05-15 at 18 17 41 (4)" src="https://github.com/user-attachments/assets/43c9857e-7199-48a7-a7aa-b73d09417990" />
+<img width="702" height="1600" alt="WhatsApp Image 2026-05-15 at 18 17 41 (5)" src="https://github.com/user-attachments/assets/18d7a3eb-9442-4ef7-97d1-1c821f84d4a0" />
+<img width="702" height="1600" alt="WhatsApp Image 2026-05-15 at 18 17 42" src="https://github.com/user-attachments/assets/1fbe8564-aa0f-4ade-8b4f-b3052439e05a" />
+
+
 
 - Tela Inicial
 - Tela de Detalhes
