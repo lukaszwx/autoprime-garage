@@ -104,3 +104,35 @@ Prints do Aplicativo
 Repositório
 
 https://github.com/lukaszwx/autoprime-garage
+
+Divisão:
+
+João
+
+- Introdução do projeto
+- Explicar a tela de Login ou Configurações
+- Mostrar uso de View e Text
+
+Luyan
+
+- Explicar os testes
+- Mostrar funcionamento do cadastro e exclusão
+- Explicar TouchableOpacity/Button
+
+Rodrigo
+
+- Explicar a HomeScreen
+- Mostrar FlatList e navegação entre telas
+
+Gustavo
+
+- Explicar README e GitHub
+- Mostrar componente Image e organização das telas
+
+Lucas
+
+- Integração com Supabase
+- CRUD
+- veiculoService.ts
+- Navegação
+- Estrutura principal do frontend
